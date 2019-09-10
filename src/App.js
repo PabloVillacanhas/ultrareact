@@ -14,12 +14,22 @@ class App extends Component{
     ]};
   }
 
-  switchStateHandler = () => {
+  switchStateHandler = (firstName) => {
     this.setState({
       persons: [
-        {name: 'Pablito', age: 2},
+        {name: firstName, age: 2},
         {name: 'Martita', age: 2},
         {name: 'Maria', age: 2}
+      ]
+    });
+  }
+
+  nameChangeHandler = (event) => {
+    this.setState({
+      persons: [
+        {name: event.target.value, age: 2},
+        {name: event.target.value, age: 2},
+        {name: event.target.value, age: 2}
       ]
     });
   }
@@ -27,9 +37,9 @@ class App extends Component{
   render(){
       return (
       <div className="App">
-        <button onClick={this.switchStateHandler}>Change state</button>
+        <button onClick={this.switchStateHandler.bind(this, 'Max')}>Change state</button>
         {this.state.persons.map(person => (
-          <Person name={person.name} age={person.age} someProp="da"/>
+          <Person click={this.switchStateHandler} nameChange={this.nameChangeHandler} name={person.name} age={person.age} someProp="da"/>
         ))}
       </div>
     );
