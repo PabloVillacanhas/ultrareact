@@ -30,15 +30,17 @@ class App extends Component {
     });
 
     //Update state
-    this.setState(persons)
+    this.setState({persons: persons})
   }
 
   togglePersonsHandler = () => {
     this.setState({ showPersons: !this.state.showPersons })
   }
 
-  deletePersonHandler(personIndex) {
-    delete this.state.persons[personIndex]
+  deletePersonHandler = (personid) => {
+    let persons = [...this.state.persons]
+    delete persons[persons.findIndex(person => person.id === personid)]
+    this.setState({persons: persons})
   }
 
   render() {
@@ -49,7 +51,7 @@ class App extends Component {
             key={person.id}
             name={person.name}
             age={person.age}
-            click={() => this.deletePersonHandler(index)}
+            click={() => this.deletePersonHandler(person.id)}
             change={(event) => this.nameChangeHandler(event, person.id)} />
       )) : null;
 
