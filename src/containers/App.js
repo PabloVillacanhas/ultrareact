@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import PersonList from '../components/PersonList/PersonList.js'
+import Cockpit from '../components/Cockpit/Cockpit.js'
 import { remove } from 'lodash'
 
 class App extends Component {
@@ -57,7 +58,10 @@ class App extends Component {
 
     return (
       <div className="App">
-        <button onClick={this.togglePersonsHandler}>{this.state.showPersons ? "Hide Persons" : "Show Persons"}</button>
+        <Cockpit
+        clicked={this.togglePersonsHandler}>
+          {this.state.showPersons ? "Hide Persons" : "Show Persons"}
+        </Cockpit>
         {personsList}
       </div>
     );
