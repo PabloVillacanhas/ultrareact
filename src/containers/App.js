@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person.js'
+import PersonList from '../components/PersonList/PersonList.js'
+import { remove } from 'lodash'
 
 class App extends Component {
 
@@ -23,47 +24,41 @@ class App extends Component {
 
     //Update the person we selected
     persons = persons.map(p => {
-      if (p.id === idPerson){
+      if (p.id === idPerson) {
         p.name = event.target.value
       }
       return p;
     });
 
     //Update state
-    this.setState({persons: persons})
+    this.setState({ persons: persons })
   }
 
   togglePersonsHandler = () => {
     this.setState({ showPersons: !this.state.showPersons })
   }
 
-  deletePersonHandler = (personid) => {
+  deletePersonHandler = (personId) => {
     let persons = [...this.state.persons]
-    delete persons[persons.findIndex(person => person.id === personid)]
-    this.setState({persons: persons})
+    remove(persons, (p) => p.id === personId)
+    this.setState({ persons: persons })
   }
 
   render() {
-
-    let showPersons = this.state.showPersons ?
-      this.state.persons.map((person, index) => (
-          <Person
-            key={person.id}
-            name={person.name}
-            age={person.age}
-            click={() => this.deletePersonHandler(person.id)}
-            change={(event) => this.nameChangeHandler(event, person.id)} />
-      )) : null;
+    let personsList = null;
+    if (this.state.showPersons) {
+      personsList = (<div>
+        <PersonList
+          personsList={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangeHandler} />
+      </div >)
+    }
 
     return (
       <div className="App">
         <button onClick={this.togglePersonsHandler}>{this.state.showPersons ? "Hide Persons" : "Show Persons"}</button>
-        {this.state.showPersons ?
-          <div>
-            {showPersons}
-          </div>
-          : null
-        }
+        {personsList}
       </div>
     );
   }
